@@ -1,17 +1,15 @@
 //
-//  ContentView.swift
+//  ChatView.swift
 //  AIvy
 //
 //  Created by Liza on 15/07/2025.
 //
 
 import SwiftUI
-import CoreData
 
-struct ContentView: View {
+struct ChatView: View {
+    @ObservedObject var coordinator: ChatCoordinator
     @StateObject private var viewModel = ChatViewModel()
-    
-    @State var username: String = ""
     
     var body: some View {
         Text("Messages count: \(viewModel.messages.count)")
@@ -20,6 +18,7 @@ struct ContentView: View {
         VStack{
             List(viewModel.messages, id: \.id) { message in
                 HStack {
+                    
                     Text(message.sender.name)
                         .bold()
                     
@@ -27,15 +26,19 @@ struct ContentView: View {
                 }
             }
             
-            TextField("Type your username...", text: $username)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding(.horizontal)
+            if viewModel.isBotTyping {
+                Text("Bot is typing...")
+                    .italic()
+                    .foregroundColor(.gray)
+            }
             
             HStack {
                 TextField("Type your message...", text: $viewModel.inputText)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                 Button("Send") {
-                    viewModel.sendMessage(username: username)
+                    if let username = coordinator.username {
+                        viewModel.sendMessage(username: username)
+                    }
                 }
             }
             .padding()
@@ -45,5 +48,5 @@ struct ContentView: View {
 
 
 #Preview {
-    ContentView()
+    ChatView(coordinator: ChatCoordinator())
 }
