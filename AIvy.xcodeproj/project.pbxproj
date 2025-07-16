@@ -6,6 +6,15 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		6E5572CD2E2807A2003137C5 /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = 6E5572CC2E2807A2003137C5 /* Auth */; };
+		6E5572CF2E2807A2003137C5 /* Functions in Frameworks */ = {isa = PBXBuildFile; productRef = 6E5572CE2E2807A2003137C5 /* Functions */; };
+		6E5572D12E2807A2003137C5 /* PostgREST in Frameworks */ = {isa = PBXBuildFile; productRef = 6E5572D02E2807A2003137C5 /* PostgREST */; };
+		6E5572D32E2807A2003137C5 /* Realtime in Frameworks */ = {isa = PBXBuildFile; productRef = 6E5572D22E2807A2003137C5 /* Realtime */; };
+		6E5572D52E2807A2003137C5 /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = 6E5572D42E2807A2003137C5 /* Storage */; };
+		6E5572D72E2807A2003137C5 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 6E5572D62E2807A2003137C5 /* Supabase */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		6E55725D2E26A5FD003137C5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -29,9 +38,22 @@
 		6E5572662E26A5FD003137C5 /* AIvyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AIvyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		6E5572DB2E280B46003137C5 /* Exceptions for "AIvy" folder in "AIvy" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 6E5572482E26A5FB003137C5 /* AIvy */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		6E55724B2E26A5FB003137C5 /* AIvy */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				6E5572DB2E280B46003137C5 /* Exceptions for "AIvy" folder in "AIvy" target */,
+			);
 			path = AIvy;
 			sourceTree = "<group>";
 		};
@@ -52,6 +74,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E5572D12E2807A2003137C5 /* PostgREST in Frameworks */,
+				6E5572CF2E2807A2003137C5 /* Functions in Frameworks */,
+				6E5572D72E2807A2003137C5 /* Supabase in Frameworks */,
+				6E5572CD2E2807A2003137C5 /* Auth in Frameworks */,
+				6E5572D52E2807A2003137C5 /* Storage in Frameworks */,
+				6E5572D32E2807A2003137C5 /* Realtime in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +140,12 @@
 			);
 			name = AIvy;
 			packageProductDependencies = (
+				6E5572CC2E2807A2003137C5 /* Auth */,
+				6E5572CE2E2807A2003137C5 /* Functions */,
+				6E5572D02E2807A2003137C5 /* PostgREST */,
+				6E5572D22E2807A2003137C5 /* Realtime */,
+				6E5572D42E2807A2003137C5 /* Storage */,
+				6E5572D62E2807A2003137C5 /* Supabase */,
 			);
 			productName = AIvy;
 			productReference = 6E5572492E26A5FB003137C5 /* AIvy.app */;
@@ -195,6 +229,9 @@
 			);
 			mainGroup = 6E5572402E26A5FB003137C5;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				6E5572CB2E2807A2003137C5 /* XCRemoteSwiftPackageReference "supabase-swift" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 6E55724A2E26A5FB003137C5 /* Products */;
 			projectDirPath = "";
@@ -397,6 +434,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AIvy/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -436,6 +474,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AIvy/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -593,6 +632,50 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		6E5572CB2E2807A2003137C5 /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/supabase-community/supabase-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.5.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		6E5572CC2E2807A2003137C5 /* Auth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6E5572CB2E2807A2003137C5 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Auth;
+		};
+		6E5572CE2E2807A2003137C5 /* Functions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6E5572CB2E2807A2003137C5 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Functions;
+		};
+		6E5572D02E2807A2003137C5 /* PostgREST */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6E5572CB2E2807A2003137C5 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = PostgREST;
+		};
+		6E5572D22E2807A2003137C5 /* Realtime */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6E5572CB2E2807A2003137C5 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Realtime;
+		};
+		6E5572D42E2807A2003137C5 /* Storage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6E5572CB2E2807A2003137C5 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Storage;
+		};
+		6E5572D62E2807A2003137C5 /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6E5572CB2E2807A2003137C5 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 6E5572412E26A5FB003137C5 /* Project object */;
 }

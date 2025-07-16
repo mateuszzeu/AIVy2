@@ -1,21 +1,21 @@
 //
-//  LoginView.swift
+//  RegisterView.swift
 //  AIvy
 //
-//  Created by Liza on 15/07/2025.
+//  Created by Liza on 16/07/2025.
 //
 
 import SwiftUI
 
-struct LoginView: View {
+struct RegisterView: View {
     @ObservedObject var coordinator: Coordinator
-    @StateObject private var viewModel = LoginViewModel()
+    @StateObject private var viewModel = RegisterViewModel()
     @State private var email = ""
     @State private var password = ""
 
     var body: some View {
         VStack {
-            Text("Sign In")
+            Text("Register")
                 .font(.title2).bold()
 
             TextField("Email", text: $email)
@@ -24,17 +24,18 @@ struct LoginView: View {
 
             SecureField("Password", text: $password)
                 .textFieldStyle(.roundedBorder)
+                .padding(.horizontal)
 
-            Button("Sign In") {
+            Button("Register") {
                 Task {
-                    await viewModel.login(email: email, password: password, coordinator: coordinator)
+                    await viewModel.register(email: email, password: password, coordinator: coordinator)
                 }
             }
             .buttonStyle(.borderedProminent)
             .disabled(email.isEmpty || password.isEmpty)
 
-            Button("No account? Register") {
-                coordinator.showRegister()
+            Button("Already have an account? Sign In") {
+                coordinator.showLogin()
             }
             .font(.footnote)
 
@@ -48,6 +49,5 @@ struct LoginView: View {
 }
 
 #Preview {
-    LoginView(coordinator: Coordinator())
+    RegisterView(coordinator: Coordinator())
 }
-

@@ -2,51 +2,28 @@
 //  ChatView.swift
 //  AIvy
 //
-//  Created by Liza on 15/07/2025.
+//  Created by Liza on 16/07/2025.
 //
-
 import SwiftUI
 
 struct ChatView: View {
-    @ObservedObject var coordinator: ChatCoordinator
-    @StateObject private var viewModel = ChatViewModel()
-    
+    @ObservedObject var coordinator: Coordinator
+
     var body: some View {
-        Text("Messages count: \(viewModel.messages.count)")
-            .font(.caption)
-        
-        VStack{
-            List(viewModel.messages, id: \.id) { message in
-                HStack {
-                    
-                    Text(message.sender.name)
-                        .bold()
-                    
-                    Text(message.text)
-                }
+        VStack {
+            Text("👋 Welcome to the chat!")
+                .font(.title)
+
+            Button("Logout") {
+                coordinator.logout()
             }
-            
-            if viewModel.isBotTyping {
-                Text("Bot is typing...")
-                    .italic()
-                    .foregroundColor(.gray)
-            }
-            
-            HStack {
-                TextField("Type your message...", text: $viewModel.inputText)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                Button("Send") {
-                    if let username = coordinator.username {
-                        viewModel.sendMessage(username: username)
-                    }
-                }
-            }
-            .padding()
+            .foregroundColor(.red)
         }
+        .padding()
     }
 }
 
 
 #Preview {
-    ChatView(coordinator: ChatCoordinator())
+    ChatView(coordinator: Coordinator())
 }

@@ -6,23 +6,21 @@
 //
 
 import SwiftUI
-import CoreData
 
 struct ContentView: View {
-    @StateObject private var coordinator = ChatCoordinator()
-    
+    @StateObject private var coordinator = Coordinator()
+
     var body: some View {
         Group {
-            if let _ = coordinator.username {
-                ChatView(coordinator: coordinator)
-            } else {
+            switch coordinator.screen {
+            case .login:
                 LoginView(coordinator: coordinator)
+            case .register:
+                RegisterView(coordinator: coordinator)
+            case .chat:
+                ChatView(coordinator: coordinator)
             }
         }
     }
 }
 
-
-#Preview {
-    ContentView()
-}
