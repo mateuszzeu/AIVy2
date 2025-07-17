@@ -12,7 +12,7 @@ struct AIvyApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            AppRootView()
         }
     }
 }

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct AppRootView: View {
     @StateObject private var coordinator = Coordinator()
 
     var body: some View {
