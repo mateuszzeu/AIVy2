@@ -7,13 +7,26 @@
 import SwiftUI
 
 struct ChatView: View {
-    @ObservedObject var coordinator: Coordinator
+    @Bindable var coordinator: Coordinator
     @Bindable var viewModel = ChatViewModel()
 
     var body: some View {
         VStack {
             List(viewModel.messages, id: \.id) { message in
-                Text(message.content)
+                HStack {
+                    if message.sender == "AI" {
+                        Text(message.content)
+                            .padding()
+                            .background(Color.gray.opacity(0.2))
+                            .cornerRadius(12)
+                    } else {
+                        Text(message.content)
+                            .padding()
+                            .background(Color.blue.opacity(0.2))
+                            .cornerRadius(12)
+                        Spacer()
+                    }
+                }
             }
             
             TextField("Write your message...", text: $viewModel.inputText)

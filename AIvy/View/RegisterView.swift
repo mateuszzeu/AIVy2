@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RegisterView: View {
-    @ObservedObject var coordinator: Coordinator
+    @Bindable var coordinator: Coordinator
     @Bindable private var viewModel = RegisterViewModel()
     @State private var email = ""
     @State private var password = ""

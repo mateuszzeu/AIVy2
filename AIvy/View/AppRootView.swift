@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AppRootView: View {
-    @StateObject private var coordinator = Coordinator()
+    @Bindable private var coordinator = Coordinator()
 
     var body: some View {
         Group {

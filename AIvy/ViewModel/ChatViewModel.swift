@@ -19,17 +19,29 @@ final class ChatViewModel {
         let trimmed = inputText.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return }
         
-        let message = ChatMessage(
+        let userMessage = ChatMessage(
             id: UUID().uuidString,
             user_id: userID,
             sender: "user",
             content: trimmed,
             created_at: ISO8601DateFormatter().string(from: .now)
         )
+        try? await SupabaseService.sendMessage(userMessage)
+        messages.append(userMessage)
         
-        try? await SupabaseService.sendMessage(message)
-        
-        await sendToWebhook(trimmed)
+        if let aiContent = await sendToWebhook(trimmed) {
+            let aiMessage = ChatMessage(
+                id: UUID().uuidString,
+                user_id: userID,
+                sender: "AI",
+                content: aiContent,
+                created_at: ISO8601DateFormatter().string(from: .now)
+            )
+            messages.append(aiMessage)
+            try? await SupabaseService.sendMessage(aiMessage)
+        } else {
+
+        }
         
         inputText = ""
     }
@@ -42,20 +54,34 @@ final class ChatViewModel {
         }
     }
     
-    func sendToWebhook(_ message: String) async {
-        guard let url = URL(string: "https://xzeu.app.n8n.cloud/webhook-test/9e62fe51-789a-4a15-adbd-3a19c02bea74") else { return }
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        let body = ["content": message]
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
+    func sendToWebhook(_ message: String) async -> String? {
+        guard let url = URL(string:
+                "https://xzeu.app.n8n.cloud/webhook/9e62fe51-789a-4a15-adbd-3a19c02bea74")
+        else { return nil }
+        
+        var req = URLRequest(url: url)
+        req.httpMethod = "POST"
+        req.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        req.httpBody = try? JSONSerialization.data(withJSONObject: ["content": message])
 
         do {
-            let (data, _) = try await URLSession.shared.data(for: request)
+            let (data, _) = try await URLSession.shared.data(for: req)
+            let raw = String(decoding: data, as: UTF8.self)
+     
+            if let top = try JSONSerialization.jsonObject(with: data) as? [String: Any] {
+                if let direct = top["content"] as? String {
+                    return direct
+                }
+                if let firstNested = top.values.first as? [String: Any],
+                   let nestedContent = firstNested["output"] as? String {
+                    return nestedContent
+                }
+            }
+            return nil
+            
         } catch {
-            print("Webhook error:", error.localizedDescription)
+            return nil
         }
     }
 }
-
 

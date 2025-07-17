@@ -7,9 +7,10 @@
 
 import SwiftUI
 
-final class Coordinator: ObservableObject {
-    @Published var screen: Screen = .login
-    @Published var currentUser: AppUser?
+@Observable
+final class Coordinator {
+    var screen: Screen = .login
+    var currentUser: AppUser?
 
     enum Screen {
         case login
