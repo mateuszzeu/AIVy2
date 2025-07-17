@@ -8,8 +8,9 @@
 import Foundation
 import Supabase
 
-final class RegisterViewModel: ObservableObject {
-    @Published var infoMessage: String?
+@Observable
+final class RegisterViewModel {
+    var infoMessage: String?
 
     func register(email: String, password: String, coordinator: Coordinator) async {
         do {

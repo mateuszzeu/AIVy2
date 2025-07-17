@@ -8,8 +8,9 @@
 import Foundation
 import Supabase
 
-final class LoginViewModel: ObservableObject {
-    @Published var infoMessage: String?
+@Observable
+final class LoginViewModel {
+    var infoMessage: String?
 
     func login(email: String, password: String, coordinator: Coordinator) async {
         do {

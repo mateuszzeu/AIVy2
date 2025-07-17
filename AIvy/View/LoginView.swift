@@ -9,7 +9,7 @@ import SwiftUI
 
 struct LoginView: View {
     @ObservedObject var coordinator: Coordinator
-    @StateObject private var viewModel = LoginViewModel()
+    @Bindable private var viewModel = LoginViewModel()
     @State private var email = ""
     @State private var password = ""
 

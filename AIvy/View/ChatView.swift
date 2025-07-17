@@ -8,34 +8,22 @@ import SwiftUI
 
 struct ChatView: View {
     @ObservedObject var coordinator: Coordinator
-    @State private var inputText = ""
+    @Bindable var viewModel = ChatViewModel()
 
     var body: some View {
         VStack {
             Text("👋 Welcome to the chat!")
                 .font(.title)
             
-            TextField("Write your message...", text: $inputText)
+            TextField("Write your message...", text: $viewModel.inputText)
                 .textFieldStyle(.roundedBorder)
             
             Button("Send") {
-                let trimmed = inputText.trimmingCharacters(in: .whitespacesAndNewlines)
-                guard !trimmed.isEmpty,
-                      let userID = coordinator.currentUser?.id else { return }
-                
-                let message = ChatMessage(
-                    id: UUID().uuidString,
-                    user_id: userID,
-                    sender: "user",
-                    content: trimmed,
-                    created_at: ISO8601DateFormatter().string(from: .now)
-                )
+                guard let userID = coordinator.currentUser?.id else { return }
                     
                 Task {
-                    try? await SupabaseService.sendMessage(message)
+                    await viewModel.sendMessage(userID: userID)
                 }
-                    
-                inputText = ""
             }
             
             Button("Logout") {
@@ -51,3 +39,5 @@ struct ChatView: View {
 #Preview {
     ChatView(coordinator: Coordinator())
 }
+
+
