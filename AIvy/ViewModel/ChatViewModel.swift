@@ -13,6 +13,7 @@ import Observation
 @Observable
 final class ChatViewModel {
     var inputText = ""
+    var messages: [ChatMessage] = []
     
     func sendMessage(userID: String) async {
         let trimmed = inputText.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -29,6 +30,14 @@ final class ChatViewModel {
         try? await SupabaseService.sendMessage(message)
         
         inputText = ""
+    }
+    
+    func loadHistory(userID: String) async {
+        do {
+            messages = try await SupabaseService.fetchMessages(userID: userID)
+        } catch {
+            messages = []
+        }
     }
 }
 

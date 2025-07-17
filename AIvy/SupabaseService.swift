@@ -16,4 +16,17 @@ enum SupabaseService {
             .insert([message])
             .execute()
     }
+    
+    static func fetchMessages(userID: String) async throws -> [ChatMessage] {
+        let response: PostgrestResponse<[ChatMessage]> = try await supabase
+            .from("conversations")
+            .select()
+            .eq("user_id", value: userID)
+            .order("created_at", ascending: true)
+            .execute()
+        
+        return response.value                
+    }
 }
+
+

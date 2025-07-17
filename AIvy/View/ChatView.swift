@@ -12,8 +12,9 @@ struct ChatView: View {
 
     var body: some View {
         VStack {
-            Text("👋 Welcome to the chat!")
-                .font(.title)
+            List(viewModel.messages, id: \.id) { message in
+                Text(message.content)
+            }
             
             TextField("Write your message...", text: $viewModel.inputText)
                 .textFieldStyle(.roundedBorder)
@@ -32,6 +33,11 @@ struct ChatView: View {
             .foregroundColor(.red)
         }
         .padding()
+        .task {
+            if let userID = coordinator.currentUser?.id {
+                await viewModel.loadHistory(userID: userID)
+            }
+        }
     }
 }
 
