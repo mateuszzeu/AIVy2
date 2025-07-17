@@ -29,6 +29,8 @@ final class ChatViewModel {
         
         try? await SupabaseService.sendMessage(message)
         
+        await sendToWebhook(trimmed)
+        
         inputText = ""
     }
     
@@ -39,5 +41,21 @@ final class ChatViewModel {
             messages = []
         }
     }
+    
+    func sendToWebhook(_ message: String) async {
+        guard let url = URL(string: "https://xzeu.app.n8n.cloud/webhook-test/9e62fe51-789a-4a15-adbd-3a19c02bea74") else { return }
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        let body = ["content": message]
+        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
+
+        do {
+            let (data, _) = try await URLSession.shared.data(for: request)
+        } catch {
+            print("Webhook error:", error.localizedDescription)
+        }
+    }
 }
+
 
