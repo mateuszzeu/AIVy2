@@ -13,6 +13,7 @@ struct AIvyApp: App {
     var body: some Scene {
         WindowGroup {
             AppRootView()
+                .tint(.phthaloGreen)
         }
     }
 }

@@ -11,41 +11,51 @@ struct ChatView: View {
     @Bindable var viewModel = ChatViewModel()
 
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             List(viewModel.messages, id: \.id) { message in
-                HStack {
+                HStack(alignment: .top) {
                     if message.sender == "AI" {
                         Text(message.content)
-                            .padding()
-                            .background(Color.gray.opacity(0.2))
-                            .cornerRadius(12)
-                    } else {
-                        Text(message.content)
-                            .padding()
-                            .background(Color.blue.opacity(0.2))
+                            .padding(10)
+                            .background(Color(.secondarySystemBackground))
                             .cornerRadius(12)
                         Spacer()
+                    } else {
+                        Spacer()
+                        Text(message.content)
+                            .padding(10)
+                            .background(Color.phthaloGreen.opacity(0.2))
+                            .cornerRadius(12)
                     }
                 }
+                .listRowSeparator(.hidden)
             }
-            
-            TextField("Write your message...", text: $viewModel.inputText)
-                .textFieldStyle(.roundedBorder)
-            
-            Button("Send") {
-                guard let userID = coordinator.currentUser?.id else { return }
-                    
-                Task {
-                    await viewModel.sendMessage(userID: userID)
+            .listStyle(.plain)
+
+            HStack {
+                TextField("Write your message...", text: $viewModel.inputText)
+                    .textFieldStyle(.roundedBorder)
+
+                Button(action: {
+                    guard let userID = coordinator.currentUser?.id else { return }
+                    Task { await viewModel.sendMessage(userID: userID) }
+                }) {
+                    Image(systemName: "paperplane.fill")
+                        .padding(8)
+                        .background(Color.phthaloGreen)
+                        .foregroundColor(.white)
+                        .clipShape(Circle())
                 }
+                .disabled(viewModel.inputText.trimmingCharacters(in: .whitespaces).isEmpty)
             }
-            
-            Button("Logout") {
-                coordinator.logout()
-            }
-            .foregroundColor(.red)
+            .padding()
         }
-        .padding()
+        .navigationTitle("Chat")
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button("Logout") { coordinator.logout() }
+            }
+        }
         .task {
             if let userID = coordinator.currentUser?.id {
                 await viewModel.loadHistory(userID: userID)

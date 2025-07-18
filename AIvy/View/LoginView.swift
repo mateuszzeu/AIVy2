@@ -14,29 +14,38 @@ struct LoginView: View {
     @State private var password = ""
 
     var body: some View {
-        VStack {
+        VStack(spacing: 16) {
             Text("Sign In")
-                .font(.title2).bold()
+                .font(.largeTitle.bold())
+                .padding(.bottom, 20)
 
             TextField("Email", text: $email)
-                .autocapitalization(.none)
-                .textFieldStyle(.roundedBorder)
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled()
+                .padding(12)
+                .background(Color(.secondarySystemBackground))
+                .cornerRadius(10)
 
             SecureField("Password", text: $password)
-                .textFieldStyle(.roundedBorder)
+                .padding(12)
+                .background(Color(.secondarySystemBackground))
+                .cornerRadius(10)
 
-            Button("Sign In") {
-                Task {
-                    await viewModel.login(email: email, password: password, coordinator: coordinator)
-                }
+            Button(action: {
+                Task { await viewModel.login(email: email, password: password, coordinator: coordinator) }
+            }) {
+                Text("Sign In")
+                    .frame(maxWidth: .infinity)
             }
             .buttonStyle(.borderedProminent)
+            .tint(.phthaloGreen)
             .disabled(email.isEmpty || password.isEmpty)
 
             Button("No account? Register") {
                 coordinator.showRegister()
             }
             .font(.footnote)
+            .tint(.phthaloGreen)
 
             if let info = viewModel.infoMessage {
                 Text(info)
