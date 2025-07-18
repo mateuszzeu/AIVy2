@@ -12,25 +12,35 @@ struct ChatView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            List(viewModel.messages, id: \.id) { message in
-                HStack(alignment: .top) {
-                    if message.sender == "AI" {
-                        Text(message.content)
-                            .padding(10)
-                            .background(Color(.secondarySystemBackground))
-                            .cornerRadius(12)
-                        Spacer()
-                    } else {
-                        Spacer()
-                        Text(message.content)
-                            .padding(10)
-                            .background(Color.phthaloGreen.opacity(0.2))
-                            .cornerRadius(12)
+            ScrollViewReader { scrollProxy in
+                List(viewModel.messages, id: \.id) { message in
+                    HStack(alignment: .top) {
+                        if message.sender == "AI" {
+                            Text(message.content)
+                                .padding(10)
+                                .background(Color(.secondarySystemBackground))
+                                .cornerRadius(12)
+                            Spacer()
+                        } else {
+                            Spacer()
+                            Text(message.content)
+                                .padding(10)
+                                .background(Color.phthaloGreen.opacity(0.2))
+                                .cornerRadius(12)
+                        }
+                    }
+                    .listRowSeparator(.hidden)
+                }
+                .scrollDismissesKeyboard(.interactively)
+                .listStyle(.plain)
+                .onChange(of: viewModel.messages.count) {
+                    if let last = viewModel.messages.last {
+                        withAnimation {
+                            scrollProxy.scrollTo(last.id, anchor: .bottom)
+                        }
                     }
                 }
-                .listRowSeparator(.hidden)
             }
-            .listStyle(.plain)
 
             HStack {
                 TextField("Write your message...", text: $viewModel.inputText)
@@ -64,9 +74,6 @@ struct ChatView: View {
     }
 }
 
-
 #Preview {
     ChatView(coordinator: Coordinator())
 }
-
-

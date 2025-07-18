@@ -19,6 +19,8 @@ final class ChatViewModel {
         let trimmed = inputText.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return }
         
+        await MainActor.run { self.inputText = "" }
+        
         let userMessage = ChatMessage(
             id: UUID().uuidString,
             user_id: userID,
@@ -39,11 +41,7 @@ final class ChatViewModel {
             )
             messages.append(aiMessage)
             try? await SupabaseService.sendMessage(aiMessage)
-        } else {
-
-        }
-        
-        inputText = ""
+        } else { }
     }
     
     func loadHistory(userID: String) async {
@@ -66,7 +64,7 @@ final class ChatViewModel {
 
         do {
             let (data, _) = try await URLSession.shared.data(for: req)
-            let raw = String(decoding: data, as: UTF8.self)
+            let _ = String(decoding: data, as: UTF8.self)
      
             if let top = try JSONSerialization.jsonObject(with: data) as? [String: Any] {
                 if let direct = top["content"] as? String {
@@ -78,7 +76,6 @@ final class ChatViewModel {
                 }
             }
             return nil
-            
         } catch {
             return nil
         }
