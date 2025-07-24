@@ -54,7 +54,7 @@ final class ChatViewModel {
     
     func sendToWebhook(_ message: String) async -> String? {
         guard let url = URL(string:
-                "https://xzeu.app.n8n.cloud/webhook/9e62fe51-789a-4a15-adbd-3a19c02bea74")
+                "https://xzeu33.app.n8n.cloud/webhook/9e62fe51-789a-4a15-adbd-3a19c02bea74")
         else { return nil }
         
         var req = URLRequest(url: url)
@@ -82,3 +82,6 @@ final class ChatViewModel {
     }
 }
 
+// https://xzeu33.app.n8n.cloud/webhook-test/9e62fe51-789a-4a15-adbd-3a19c02bea74    TEST
+
+// https://xzeu33.app.n8n.cloud/webhook/9e62fe51-789a-4a15-adbd-3a19c02bea74     OG
